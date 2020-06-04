@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+admin.autodiscover()
 urlpatterns = [
     path('admin/', admin.site.urls),
     path(r'^', include('django.contrib.auth.urls')),
-    path('api/', include('authentication.urls')),
-    path('api/elimu/', include('E_limu.urls'))
+    path('api/', include('E_learning_API.authentication.urls')),
+    path('api/elimu/', include('E_learning_API.E_limu.urls'))
 ]

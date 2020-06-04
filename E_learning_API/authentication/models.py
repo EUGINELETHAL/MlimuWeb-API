@@ -4,7 +4,7 @@ from django.db import models
 from django.core.mail import send_mail
 from django.contrib.auth.models import (PermissionsMixin, BaseUserManager, AbstractBaseUser)
 from django.utils.translation import ugettext_lazy as _
-from Profiles.models import Student, Instructor
+
 
 
 class UserManager(BaseUserManager):
@@ -34,9 +34,11 @@ class UserManager(BaseUserManager):
         """
         user = self.create_user(
             email,
-            password=password
+            password=password,
+
         )
-        user.is_admin = True
+        user.is_superuser = True
+        user.is_staff = True
         user.save(using=self._db)
         return user
         
@@ -77,6 +79,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_verified = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)
     is_teacher = models.BooleanField(default=False)
+    is_staff= models.BooleanField(default=False)
    
     objects = UserManager()
 

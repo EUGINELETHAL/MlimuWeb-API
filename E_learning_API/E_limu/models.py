@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from E_learning_API.profiles.models import Student, Instructor
 
 
 
