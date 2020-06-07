@@ -18,7 +18,6 @@ class Subject(models.Model):
 class Course(models.Model):
     instructor = models.ForeignKey(Instructor, related_name='courses_created', on_delete=models.CASCADE,)
     subject = models.ForeignKey(Subject, related_name='courses', on_delete=models.CASCADE,)
-    students = models.ManyToManyField(Student)
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     overview = models.TextField()
@@ -29,4 +28,11 @@ class Course(models.Model):
         return self.title
 
 
-
+class QUI(models.Model):
+    instructor = models.ForeignKey(Instructor, related_name='courses_created', on_delete=models.CASCADE,)
+    subject = models.ForeignKey(Subject, related_name='courses', on_delete=models.CASCADE,)
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
+    overview = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    

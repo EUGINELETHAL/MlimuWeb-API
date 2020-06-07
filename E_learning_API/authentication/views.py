@@ -10,16 +10,24 @@ class UserCreate(APIView):
     """ 
     Creates the user. 
     """
+    serializer_class = UserSerializer
+
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        user = request.data.get('user', {})
+
+        # The create serializer, validate serializer, save serializer pattern
+        # below is common and you will see it a lot throughout this course and
+        # your own work later on. Get familiar with it.
+        serializer = self.serializer_class(data=user)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class StudentRegisterView(APIView):
     serializer_class = StudentSerializer
-
+    
     def post(self, request, format=None):
         data = request.data
 
@@ -29,6 +37,7 @@ class StudentRegisterView(APIView):
         # handles everything we need.
         serializer = self.serializer_class(data=data)
         serializer.is_valid(raise_exception=True)
+        serializer.save()
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 

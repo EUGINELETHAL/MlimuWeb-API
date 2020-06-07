@@ -123,7 +123,6 @@ REST_FRAMEWORK = {
    
 }
 
-AUTH_USER_MODEL = 'E_learning_API.authentication.User'
 
 
 
