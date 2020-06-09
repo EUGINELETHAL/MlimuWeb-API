@@ -25,7 +25,7 @@ SECRET_KEY = 'kzygpbsikz7iyl=$ysdxx$3swk**k1_xo#nvwa%3z97^n5zx&x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [*]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'E_learning_API.E_limu',
     'django_filters',
     'E_learning_API.authentication',
+    'E_learning_API.profiles',
     'rest_framework.authtoken',
-    'rest_auth',
     'django_extensions'
 
 ]
@@ -123,7 +123,6 @@ REST_FRAMEWORK = {
    
 }
 
-AUTH_USER_MODEL = 'E_learning_API.authentication.User'
 
 
 
@@ -145,5 +144,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 AUTH_USER_MODEL = 'authentication.User'

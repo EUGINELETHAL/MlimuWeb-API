@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Subject, Course
-from authentication.serializers import UserSerializer
+from E_learning_API.authentication.serializers import UserSerializer
 
 class CourseSerializer(serializers.ModelSerializer):
     

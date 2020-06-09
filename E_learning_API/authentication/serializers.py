@@ -1,19 +1,24 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, UserManager
 from django.contrib.auth import authenticate
 
 
 class UserSerializer(serializers.ModelSerializer):
-    token = serializers.CharField(max_length=255, read_only=True)
+    # token = serializers.CharField(max_length=255, read_only=True)
+    password = serializers.CharField(
+        max_length=128,
+        min_length=8,
+        write_only=True
+    )
+    password2 = serializers.CharField(max_length=255, write_only=True)
     
     class Meta:
         model = User
-        fields = ( 'username','email', 'password', 'password2', 'is_student','is_active','is_teacher','token')
+        fields = ( 'email', 'password')
     
-    extra_kwargs = {'password': {'write_only': True}}, {'password2': {'write_only': True}}
+   
 
     def create(self, validated_data):
-        email = validated_data['email'],
         password = validated_data['password']
         password2 = validated_data['password2']
 
@@ -22,40 +27,22 @@ class UserSerializer(serializers.ModelSerializer):
             # role = validated_data['role'],
             #active = validated_data['active'],
             # verified = validated_data['verified'],
-        user = User(**validated_data)
+        return User.objects.create_user(**validated_data)
             
             
-                           # role=role, active=active, verified=verified)
+class StudentSerializer(UserSerializer):
+
+    if password != password2:
+                raise serializers.ValidationError("Your Passwords do not match")  
+   
+    def create(self, validated_data):  
+        # Use the `create_user` method we wrote earlier to create a new user.
     
-        user.set_password(password)
-        user.is_student = True
-        
-        user.save()           
+        return User.objects.create_student(**validated_data)
+      
+       
 
-class StudentSerializer(serializers.ModelSerializer):
-    
-
-    def create(self, validated_data):
-        email = validated_data['email'],
-        password = validated_data['password']
-        password2 = validated_data['password2']
-
-        if password != password2:
-                raise serializers.ValidationError("Your Passwords do not match")        
-            # role = validated_data['role'],
-            #active = validated_data['active'],
-            # verified = validated_data['verified'],
-        user = User(**validated_data)
-            
-            
-                           # role=role, active=active, verified=verified)
-    
-        user.set_password(password)
-        user.is_student = True
-        
-        user.save()           
-
-        return user        return user
+     
 
     
 
