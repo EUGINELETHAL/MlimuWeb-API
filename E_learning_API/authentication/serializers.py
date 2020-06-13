@@ -1,40 +1,38 @@
 from rest_framework import serializers
 from .models import User, UserManager
 from django.contrib.auth import authenticate
+from .utils import check_password
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.Serializer):
+    email = serializers.EmailField()
     # token = serializers.CharField(max_length=255, read_only=True)
     password = serializers.CharField(
         max_length=128,
         min_length=8,
         write_only=True
     )
-    password2 = serializers.CharField(max_length=255, write_only=True)
-    
-    class Meta:
-        model = User
-        fields = ( 'email', 'password')
-    
-   
+    confirmed_password = serializers.CharField(
+        max_length=124, min_length=8, write_only=True)
 
+    def validate(self, data):
+        password = data['password']
+        confirmed_password = data['confirmed_password']
+
+        if password != confirmed_password:
+            raise serializers.ValidationError("Your Passwords do not match") 
+            
+        return data
+    
     def create(self, validated_data):
-        password = validated_data['password']
-        password2 = validated_data['password2']
+        validated_data.pop("confirmed_password")
 
-        if password != password2:
-                raise serializers.ValidationError("Your Passwords do not match")        
-            # role = validated_data['role'],
-            #active = validated_data['active'],
-            # verified = validated_data['verified'],
         return User.objects.create_user(**validated_data)
             
             
 class StudentSerializer(UserSerializer):
 
-    if password != password2:
-                raise serializers.ValidationError("Your Passwords do not match")  
-   
+    
     def create(self, validated_data):  
         # Use the `create_user` method we wrote earlier to create a new user.
     

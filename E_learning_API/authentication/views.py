@@ -13,7 +13,7 @@ class UserCreate(APIView):
     serializer_class = UserSerializer
 
     def post(self, request):
-        user = request.data.get('user', {})
+        user = request.data
 
         # The create serializer, validate serializer, save serializer pattern
         # below is common and you will see it a lot throughout this course and
