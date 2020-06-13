@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import User, UserManager
 from django.contrib.auth import authenticate
-from .utils import check_password
 
 
 class UserSerializer(serializers.Serializer):
@@ -32,20 +31,20 @@ class UserSerializer(serializers.Serializer):
             
 class StudentSerializer(UserSerializer):
 
-    
     def create(self, validated_data):  
         # Use the `create_user` method we wrote earlier to create a new user.
     
         return User.objects.create_student(**validated_data)
+
+
+class TeacherSerializer(UserSerializer):
+
+    def create(self, validated_data):  
+        # Use the `create_user` method we wrote earlier to create a new user.
+    
+        return User.objects.create_teacher(**validated_data)
       
        
-
-     
-
-    
-
-
-
 class LoginSerializer(serializers.Serializer):
     email = serializers.CharField(max_length=255)
     username = serializers.CharField(max_length=255, read_only=True)
