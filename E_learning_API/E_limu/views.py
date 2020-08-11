@@ -1,11 +1,12 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Subject, Course
-from .serializers import SubjectSerializer, CourseSerializer
+from .models import Question,Quiz,Subject,Course
+from .serializers import SubjectSerializer, CourseSerializer,QuestionSerializer,QuizSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework import generics
+
 
 class SubjectList(APIView):
     def get(self, request, format=None):
@@ -100,3 +101,34 @@ class CourseEnrollView(APIView):
         course = get_object_or_404(Course, pk=pk)
         course.students.add(request.user)
         return Response({'enrolled': True})        
+
+
+class Quizlist(APIView):
+    def get(self, request, format=None):
+        all_quizes = Quiz.objects.all()
+        serializers = QuizSerializer(all_quizes, many=True)
+        return Response(serializers.data)
+
+    def post(self, request, format=None):
+        serializers = QuizSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class QuestionList(APIView):
+    def get(self, request, format=None):
+        all_questions = Question.objects.all()
+        serializers = QuestionSerializer(all_questions, many=True)
+        return Response(serializers.data)
+
+    def post(self, request, format=None):
+       
+        serializers = QuestionSerializer(data=request.data)
+
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+

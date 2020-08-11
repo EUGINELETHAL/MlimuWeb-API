@@ -22,7 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path(r'^', include('django.contrib.auth.urls')),
     path('api/', include('E_learning_API.authentication.urls')),
-    path('api/elimu/', include('E_learning_API.E_limu.urls'))
+    path('api/', include('E_learning_API.E_limu.urls'))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
