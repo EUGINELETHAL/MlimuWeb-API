@@ -28,18 +28,25 @@ class ChoiceSerializer(serializers.ModelSerializer):
 
 class QuestionSerializer(serializers.ModelSerializer):
     choices = ChoiceSerializer(many=True)
-    quiz_id = serializers.IntegerField(source='quiz.pk')
 
     class Meta:
         model = Question
-        fields = ('quiz_id', 'question_text', 'hint', 'choices')
+        fields = ('quiz', 'question_text', 'hint', 'choices')
+
+    def validate_data(self, data):
+        """
+        Check that the blog post is about Django.
+        """
+        quiz_title = data.get('quiz').title
+        if not Quiz.objects.filter(tile=quiz_title).exists():
+            raise serializers.ValidationError("Blog post is not about Django")
+        return data
+    
 
 
     def create(self, validated_data):
-        quiz_id = validated_data.get('quiz_id', None)
-        quiz = get_object_or_404(Quiz, pk=quiz_id)
         choices_data = validated_data.pop('choices')
-        NewQuestion = Question.objects.create(**validated_data, quiz=quiz)
+        NewQuestion = Question.objects.create(**validated_data)
         for choice_data in choices_data:
             Choice.objects.create(question=NewQuestion, **choice_data)
         return NewQuestion
