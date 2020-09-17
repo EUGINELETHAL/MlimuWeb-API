@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.exceptions import NotFound
 from .models import Question,Quiz,Subject,Course
 from .serializers import SubjectSerializer, CourseSerializer,QuestionSerializer,QuizSerializer
 from rest_framework import status
@@ -112,7 +113,6 @@ class Quizlist(APIView):
     def post(self, request, format=None):
         serializers = QuizSerializer(data=request.data)
         if serializers.is_valid():
-            print(serializers.data)
             serializers.save()
             return Response(serializers.data, status=status.HTTP_201_CREATED)
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -125,11 +125,54 @@ class QuestionList(APIView):
         return Response(serializers.data)
 
     def post(self, request, format=None):
-       
-        serializers = QuestionSerializer(data=request.data)
+        # data = request.data.get('question', {})
+        # try:
+        #     context['quiz'] = Question.objects.get(id=quiz_id)
+        # except Quiz.DoesNotExist:
+        #     raise NotFound('An article with this slug does not exist.')
+        data = request.data
+        quiz_id = data.get('quiz', None)
+        try:
+            Quiz.objects.get(id=quiz_id)
+        except Quiz.DoesNotExist:
+            raise NotFound('Please choose an existing quiz.')
+        serializers = QuestionSerializer(data=data)
 
         if serializers.is_valid():
             serializers.save()
             return Response(serializers.data, status=status.HTTP_201_CREATED)
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+class QuestionDetail(APIView):
+        """
+    Retrieve, update or delete a subject instance.
+    """
+        def get_object(self, pk):
+            try:
+                return Question.objects.get(pk=pk)
+            except Question.DoesNotExist:
+                raise NotFound('OOPS,Question not found.')
+
+        def get(self, request, pk, format=None):
+            question = self.get_object(pk)
+            serializer = QuestionSerializer(question)
+            return Response(serializer.data)
+
+        def put(self, request, pk, format=None):
+            question = self.get_object(pk)
+            serializer = QuestionSerializer(question, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            def delete(self, request, pk, format=None):
+                subject = self.get_object(pk)
+                subject.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT) 
+
+
+
+   
