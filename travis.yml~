@@ -3,7 +3,9 @@ A basic travis.yml boilerplate for Django projects
 #   The set-up assumes a postgreSQL database.
 language: python
 dist: xenial
-
+services:
+  - mysql
+  - postgresql
 python:
   - "3.6"
   - "3.7"
