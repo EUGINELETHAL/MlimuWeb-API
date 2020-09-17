@@ -138,3 +138,25 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+{
+        "quiz": 11,
+        "question_text":" \\\\\\\\\\\n django",
+        "hint": "",
+        "choices": [
+            {
+                "choice": "d",
+                "position": "a",
+                "is_correct": false
+            },
+            {
+                "choice": "hel",
+                "position": "b",
+                "is_correct": false
+            },
+            {
+                "choice": "tu",
+                "position": "c",
+                "is_correct": false
+            }
+        ]
+    }

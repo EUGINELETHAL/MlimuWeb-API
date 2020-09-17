@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'E_learning_API.profiles',
     'rest_framework.authtoken',
     'django_extensions'
-
 ]
 
 MIDDLEWARE = [
