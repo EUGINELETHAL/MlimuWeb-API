@@ -12,7 +12,7 @@ urlpatterns = [
     path('Subjects/Courses/<int:pk>/', views.course_detail),
     path('questions', views.QuestionList.as_view(), name='questionlist'),
     path('quiz', views.Quizlist.as_view(), name='quiz-list'),
-    path('quiz/<int:pk>/', views.QuizDetail.as_view()),
+    # path('quiz/<int:pk>/', views.QuizDetail.as_view()),
     path('question/<int:pk>/', views.QuestionDetail.as_view()),
 
 ]

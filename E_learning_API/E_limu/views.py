@@ -174,5 +174,24 @@ class QuestionDetail(APIView):
                 return Response(status=status.HTTP_204_NO_CONTENT) 
 
 
+def vote(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    try:
+        selected_choice = question.choices.get(pk=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
+        # Redisplay the question voting form.
+        return render(request, 'polls/index.html', {
+            'question': question,
+            'error_message': "You didn't select a choice.",
+        })
+    else:
+        StudentAnswer.create(
+            student=request.user,
+            choice=selected_choice,
+            question=question,
+        )
+       
+
+
 
    
