@@ -84,5 +84,5 @@ See detailed `cookiecutter-django Heroku documentation`_.
 
 
 
-D
+
 
