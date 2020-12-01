@@ -3,7 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils.text import slugify 
-from m_limu.E_limu.profiles.models import Student, Instructor
+from E_learning_API.profiles.models import Student, Instructor
 from django.core.validators import MaxValueValidator, validate_comma_separated_integer_list
 from django.core.exceptions import ValidationError
 
