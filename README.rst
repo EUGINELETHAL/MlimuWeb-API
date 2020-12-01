@@ -1,7 +1,9 @@
-M-limu
+M-limu 
 ======
+M-limu is  mobile learning management platform designed to improve performance of  students across Kenya.Learning is designed to take place via  sms and weeb platforms.
 
-Django EDucation project
+A django rest  service built with DRF and Africa's talking Api
+
 
 .. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
      :target: https://github.com/pydanny/cookiecutter-django/
