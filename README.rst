@@ -1,6 +1,6 @@
 M-limu 
 ======
-M-limu is  mobile learning management platform designed to improve performance of  students across Kenya.Learning is designed to take place via  sms and weeb platforms.
+M-limu is  mobile learning management platform designed to improve performance of  students across Kenya.Learning is designed to take place via  sms and web platforms.
 
 A django rest  service built with DRF and Africa's talking Api
 
