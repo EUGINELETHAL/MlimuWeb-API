@@ -28,7 +28,7 @@ class UserCreate(APIView):
 class StudentRegisterView(APIView):
     serializer_class = StudentSerializer
     
-    def post(self, request, format=None):
+    def post(self, request):
         data = request.data
 
         # Notice here that we do not call `serializer.save()` like we did for

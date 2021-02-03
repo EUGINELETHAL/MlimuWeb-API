@@ -19,4 +19,4 @@ class Student(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):  
-        return self.instructor.username
+        return self.student.username

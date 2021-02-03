@@ -3,8 +3,10 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils.text import slugify 
+from .utils import generate_unique_slug
 from E_learning_API.profiles.models import Student, Instructor
 from django.core.validators import MaxValueValidator, validate_comma_separated_integer_list
+from django.core.exceptions import ValidationError
 
 
 class TimestampedModel(models.Model):
@@ -19,27 +21,38 @@ class TimestampedModel(models.Model):
 
 
 class Subject(TimestampedModel):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     
     def __str__(self):
         return self.title
-
+    
+    def save(self, *args, **kwargs):
+        '''Saves all the changes of model Subject'''
+        if not self.slug:
+            self.slug = generate_unique_slug(self, "title", "slug")
+        super().save(*args, **kwargs)
 
 class Course(TimestampedModel):
-    instructor = models.ForeignKey(Instructor, related_name='courses_created',
-                                   on_delete=models.CASCADE,)
+    # instructor = models.ForeignKey(Instructor, related_name='courses_created',
+    #                                on_delete=models.CASCADE,)
     subject = models.ForeignKey(Subject, related_name='courses', 
                                 on_delete=models.CASCADE,)
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     overview = models.TextField()
-   
+    published = models.BooleanField(default=False)
+
     
 
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        '''Saves all the changes of model Subject'''
+        if not self.slug:
+            self.slug = generate_unique_slug(self, "title", "slug")
+        super().save(*args, **kwargs)
 
 class Quiz(TimestampedModel):
     FORM_CHOICES = ( 
@@ -95,6 +108,18 @@ class Question(TimestampedModel):
     question_text = models.CharField(max_length=1024, unique=True)
     hint = models.CharField(max_length=1024, blank=True)
 
+   
+    @property
+    def no_choices(self):
+        count=self.choices.count()
+        print(count)
+        return count
+
+   
+
+
+    
+    
     def __str__(self):
         return self.question_text
 

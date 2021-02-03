@@ -22,8 +22,12 @@ admin.site.register(Course, CourseAdmin)
 
 class ChoiceInline(admin.StackedInline):
     model = Choice
-
-
+    fieldsets = [
+        (None,               {'fields': ['choice']}),
+        (None,               {'fields': ['is_correct']}),
+         (None,               {'fields': ['position']}),
+       
+    ]
 class QuizAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['title']}),
@@ -39,11 +43,7 @@ admin.site.register(Quiz, QuizAdmin)
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    fieldsets = [
-        (None,               {'fields': ['quiz']}),
-        (None,               {'fields': ['question_text']}),
-       
-    ]
+    
     inlines = [ChoiceInline]
 
 

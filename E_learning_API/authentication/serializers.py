@@ -31,7 +31,7 @@ class UserSerializer(serializers.Serializer):
             
 class StudentSerializer(UserSerializer):
 
-    def create(self, validated_data):  
+    def create_student(self, validated_data):  
         # Use the `create_user` method we wrote earlier to create a new user.
     
         return User.objects.create_student(**validated_data)
@@ -47,7 +47,6 @@ class TeacherSerializer(UserSerializer):
        
 class LoginSerializer(serializers.Serializer):
     email = serializers.CharField(max_length=255)
-    username = serializers.CharField(max_length=255, read_only=True)
     password = serializers.CharField(max_length=128, write_only=True)
     token = serializers.CharField(max_length=255, read_only=True)
 
@@ -101,7 +100,7 @@ class LoginSerializer(serializers.Serializer):
         # that we will see later on.
         return {
             'email': user.email,
-            'username': user.username,
+            
             # 'token': user.token
         }       
            
