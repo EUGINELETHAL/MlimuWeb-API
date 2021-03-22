@@ -1,6 +1,8 @@
 M-limu 
 ======
-M-limu is  mobile learning management platform designed to improve performance of  students across Kenya.Learning is designed to take place via  sms and web platforms.
+M-limu is  mobile learning management platform designed to improve performance of  students across Kenya.Learning is designed to take place via  sms and web platforms.Our goal is to help young people in Africa use education to transform their lives. To do this, we use technology to make their learning easier, quicker and more efficient.
+
+Out of 10 people in Africa, only 3 have internet access. We focus on the 7. Mtabe is a startup that uses a and SMS technology to deliver learning content to students who cannot afford textbooks and do not have internet access. We have made it so simple that an average African student does not need to master a new technology or get a new device to start using Mtabe.
 
 A django rest  service built with DRF and Africa's talking Api
 
